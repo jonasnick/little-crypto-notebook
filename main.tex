@@ -1,0 +1,35 @@
+\documentclass{article}
+% General document formatting
+\usepackage[margin=0.7in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[utf8]{inputenc}
+\usepackage{todonotes}
+% Related to math
+\usepackage{amsmath,amssymb,amsfonts,amsthm,hyperref}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+% modified pf2 where proof -> pproof and qed -> pqed to avoid colliding with amsthm
+\usepackage{pf2}
+\pflongnumbers
+\usepackage[
+    adversary,
+    sets,
+    probability,
+    asymptotics,
+    lambda,
+    oracles,
+    primitives,
+    operators
+]{cryptocode}
+
+
+\input{tex/macros.tex}
+
+\title{Little Crypto Notebook}
+\begin{document}
+\maketitle
+\tableofcontents
+\input{tex/relations.tex}
+\input{tex/zk_mul.tex}
+\end{document}
