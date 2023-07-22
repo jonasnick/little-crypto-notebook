@@ -1,8 +1,12 @@
 \subsection{Prove Multiplication in ZK}
 
+The relation $\mathcal{R}_{\textrm{mult}}$ describes two commitments $V$ and $C$, where $C$ commits to values $a$ and $b$ and $V$ commits to their product.
+
 \begin{equation*}
   \mathcal{R}_{\textrm{mult}} = \{ ((G_0, G_1, H \in \mathbb{G}), (V, C \in \mathbb{G})) , (a, b, s_C, s_V \in \mathbb{Z}_p))  | V = abG_0 + s_VH, C = aG_0 + bG_1 + s_CH\}
 \end{equation*}
+
+The following protocol is zero-knowledge argument of knowledge for $\mathcal{R}_{\textrm{mult}}$.
 
 \begin{enumerate}
 \item Prover draws $s_a, s_b, s_S, \tau_1, \tau_2$ sends
@@ -26,7 +30,7 @@
     \end{align*}
 \end{enumerate}
 
-\subsubsection{Correctness}
+\subsubsection{Completeness}
 \begin{align*}
   C + xS &= aG_0 + bG_1 + s_CH + x(s_aG_0 + s_b G_1 + s_SH)\\
          &= (a + xs_a)G_0 + (b + xs_b)G_1 + (s_C + xs_S)H\\
