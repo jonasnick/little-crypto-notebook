@@ -38,16 +38,6 @@
                     &= lrG_0 + \tau_xH
 \end{align*}
 
-\subsubsection{Extension to vectors}
-\todo[inline]{Actually it's not that easy. The verifier needs to send $\rho$ before the prover can send the error terms because they need to account for $\rho$.}
-Note that if $a$ and $b$ were vectors $\vec{a}, \vec{b} \in \Z_p^n$, $C$ was a commitment to these vectors and $V = \ip{\vec{a}}{\vec{b}}G_0 + s_VH$, then it would be possible to avoid sending vectors $\vec{l}$ and $\vec{r}$ using the inner product argument.
-To do that, the verifier sends challenge $\rho$ along with $x$.
-Then the prover replies $\hat{t} = \ip{\vec{l}}{\vec{r}}_{\rho}$ (weighted inner product) instead of $\vec{l}, \vec{r}$. The verifer then checks
-\begin{align*}
-  V + xT_1 + x^2T_2 &= \hat{t}G_0 + \tau_x H \\
-\end{align*}
-and both prover and verifier run the weighted inner product argument on $C + xS + \hat{t}yG_2 - \mu H$ for a fresh challenge $y$.
-
 \subsubsection{Perfect Honest Verifier Zero Knowledge}
 
 \paragraph{Proof sketch}
@@ -132,89 +122,3 @@ A ZK proof like the one above seems tricky because these variants don't obviousl
       \end{align*}}
   \end{pproof}
 \end{pproof}
-
-
-\subsubsection{(Computational) witness extended emulation}
-If there was no challenge $x$ then the verifier would check  $V + T_1 + T_2 = lrG_0 + \tau_xH$.
-So the prover could choose some $a, b, \tau_x$ at random, then set $T_1 = lrG_0 + \tau_xH - V - T_2$ (similar to zero knwledge).
-
-\begin{theorem}
-  Above protocol Computational Witness Extended Emulation
-\end{theorem}
-\begin{pproof}
-  \step{1}{It suffices to show that the emulator can extract $a,b,s_V,s_C$ such that $V = abG_0 + s_VH, C = aG_0 + bG_1 + s_CH$ or we have a discrete logarithm relation between the generators.}
-  \step{2}{Using the rewinding oracle, the emulator runs the prover with three different challenges, $x_0$, $x_1$, $x_2$ which allows extracting $a, b, s_a, s_b, s_V, s_C$ and $s_S$.}
-  \begin{pproof}
-    \step{2a}{Need two execution to extract $a, b, s_a, s_b, s_C, s_S$ from $l_{0,1}, r_{0,1}, \mu_{0,1}$ and three executions to extract $s_V, \tau_1, \tau_2$ from $\tau_{x,0,1,2}$}
-  \end{pproof}
-  \step{3}{For $C = a'G_0 + b'G_1 + s_C'H$ and $S = s_a'G_0 + s_b'G_1 + s_S'H$ it holds that $a = a', b = b', s_C = s_c', s_a = s_a', s_b = s_b', s_S = s_S'$ or we have a discrete logarithm relation between the generators.}
-  \begin{pproof}
-    \step{3a}{We have $a' + xs_a' = a + xs_a, b' + xs_b' = b+xs_b,  s_C' + xs_S' = s_C' + xs_S'$ or a discrete logarithm relation between the generators.}
-    \begin{pproof}
-    \step{3a0}{Note if the prover would know the DL $d$ such that $G_1 = dG_0$ it could have sent an $l = d + a' + s_a x, r = (b'-1) + s_a x$ and then the extractor would have obtained $a = d + a', b = b' - 1$. Yet, it holds that
-      \begin{align}
-        lG_0 + rG_1 + \mu H &= (d + a' + s_ax)G_0 + (b'-1 + s_bx)G_1 + \mu H\\
-                           &= (a' + s_ax)G_0 + (b' + s_bx)G_1 + \mu H
-      \end{align}
-      since $l$, $r$ are valid for $C = a'G_0 + b'G_1 + s_CH$. Then we have $a \ne a'$ and $b \ne b'$.}
-    \step{3a1}{Can obtain representation $C = a'G_0+ b'G_1+ s_C'H$, $S = s_a'G_0 + s_b'G_1 + s_S'H$ from
-      \begin{align}
-        C + xS &= l_iG_0 + r_iG_1 + \mu_i H
-      \end{align}
-      as
-      \begin{align}
-        a' + xs_a' = l_i\\
-        b' + xs_b' = r_i\\
-        s_C' + xs_S' = \mu_i
-      \end{align}
-      }
-    \step{3a3}{Then
-      \begin{align}
-        C + xS &= lG_0 + rG_1 + \mu H\\
-        (a' + xs_a')G_0 + (b' + xs_b')G_1 + (s_C' + xs_S')H &= (a + xs_a)G_0 + (b+xs_b)G_1 + (s_C' + xs_S')H\\
-      \end{align}
-      }
-    \step{3a3}{Now either
-      \begin{align}
-        a' + xs_a'&= a + xs_a\\
-        b' + xs_b' &= b+xs_b\\
-        s_C' + xs_S' &= s_C' + xs_S'
-      \end{align}
-      or the extractor has obtained a discrete logarithm relation between the generators.
-      }
-    \end{pproof}
-    \step{3b}{The probability that $a' \ne a$ or $s_a' \ne s_a$ while $a' + xs_a' = a + xs_a$ is negligible due to the Schwartz-Zippel Lemma}
-  \end{pproof}
-  \step{5}{For $V = a'b'G_0 + s_V'H$ we extract $a'b' = ab$ and $s_V' = s_V$ or the extractor has found a DLog between generators.}
-  \begin{pproof}
-    \step{5a}{For $T_1 = t_1'G_0 + \tau_1'H,T_2 = t_2'G_0 + \tau_2'H$ it holds that
-      \begin{align}
-          a'b' + xt_1' + x^2t_2'&= ab + x(as_b + bs_a) + x^2s_as_b\\
-          s_V' + x\tau_1H + x^2\tau_2 &= s_V + x\tau_1 + x^2\tau_2
-       \end{align}
-       or the extractor has found a DLog between generators.
-    }
-    \begin{pproof}
-      \step{5a1}{We obtain $s_V', \tau_1', \tau_2'$ from
-        \begin{align*}
-          V + x_iT_1 + x_i^2T_2 &= l_ir_iG_0 + \tau_{x,i}H
-        \end{align*}
-        as
-        \begin{align*}
-          a'b' + x_it_1' + x_i^2t_2' &= l_ir_i\\
-          s_V' + x_i\tau_1' + x_i^2\tau_2' &= \tau_{x,i}
-        \end{align*}
-        }
-      \step{5a2}{Then it holds that
-        \begin{align*}
-          V + xT_1 + x^2T_2 &= lrG_0 + \tau_xH\\
-          a'b'G_0 + s_V'H + x(t_1G_0 + \tau_1H)  + x^2(t_2G_0 + \tau_2H)&= (ab + x(as_b + bs_a) + x^2s_as_b)G_0 + (s_V + x\tau_1 + x^2\tau_2)H\\
-          (a'b' + xt_1' + x^2t_2')G_0 + (s_V' + x\tau_1H + x^2\tau_2)H&= (ab + x(as_b + bs_a) + x^2s_as_b)G_0 + (s_V + x\tau_1 + x^2\tau_2)H\\
-        \end{align*}
-        which implies either equality between the scalars on the LHS and RHS or the extractor has obtained the DLog between generators.
-      }
-    \end{pproof}
-    \step{5b}{It holds that $a'b' = ab$ and $s_V' = s_V$ per the Schwartz-Zippel Lemma}
-  \end{pproof}
-\end{pproof}
-

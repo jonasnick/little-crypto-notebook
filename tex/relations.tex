@@ -1,29 +1,34 @@
-\subsection{Witness Extended Emulation}
-See \url{https://eprint.iacr.org/2001/107.pdf} and \url{https://crypto.stackexchange.com/a/71275/50853}.
-
 \subsection{Perfect Special Honest Verifier Zero Knowledge}
-From BP++:
-
-\begin{definition}[Perfect Special Honest Verifier Zero Knowledge]
-    The protocol $(\setup, \prover, \verifier)$ has SHVZK if there
-    exists a simulator $\mathcal{S}$ such that for all pairs of interactive
-    adversaries and $\sigma \gets \setup$ the simulator can construct an identically distributed proof
-    with access to the verifier randomness $\rho$.
-    \begin{gather*}
-    P_{\pi} =
-        \prob{ (\sigma, u, w) \in \mathcal{R} \land \adv_1(\pi) = 1
-        \mid % \sigma \gets \setup(1^{\lambda}),
-             (u, w, \rho) \gets \adv_2(\sigma),
-             \pi \gets \ip{\prover(\sigma, u, w)}{
-                 \verifier(\sigma, u; \rho)} }
-    \\
-        P_{\mathcal{S}} =
-        \prob{ (\sigma, u, w) \in \mathcal{R} \land \adv_1(\pi) = 1
-        \mid % \sigma \gets \setup(1^{\lambda}),
-             (u, w, \rho) \gets \adv_2(\sigma),
-             \pi \gets \mathcal{S}(u, \rho) }
-    \\
-        P_{\pi} - P_{\mathcal{S}} = 0
-    \end{gather*}
-    where $u$ denotes the statement and $w$ the witness.
+\begin{definition}[\nottoggle{twocolumn}{Perfect }{}Special Honest Verifier Zero-Knowledge]
+    The protocol $(\setup, \prover, \verifier)$ has perfect \emph{Special Honest Verifier Zero-Knowledge~(SHVZK)}
+    if there exists a simulator $\mathcal{S}$
+    such that for all pairs of adversaries $(\adv_1,\adv_2)$,
+    \begin{align*}
+      &\thmflushleft
+      \prob{
+        \begin{array}{c}
+          (\sigma, u, w) \in \mathcal{R}\\
+          \land \ \adv_2(\sigma, \pi) = 1
+        \end{array}
+        \middle| % \sigma \gets \setup(1^{\lambda}),
+        \begin{array}{c}
+            \sigma \gets \setup(\secparam);
+            (u, w, \rho) \gets \adv_1(\sigma);\\
+            \pi \gets \ip{\prover(\sigma, u, w)}{\verifier(\sigma, u; \rho)}
+        \end{array}
+      }\\
+      &\thmflushleft
+      = \prob{
+        \begin{array}{c}
+          (\sigma, u, w) \in \mathcal{R}\\
+          \land \ \adv_2(\sigma, \pi) = 1
+        \end{array}
+        \middle| % \sigma \gets \setup(1^{\lambda}),
+        \begin{array}{c}
+            \sigma \gets \setup(\secparam);
+            (u, w, \rho) \gets \adv_1(\sigma);\\
+            \pi \gets \mathcal{S}(u, \rho)
+        \end{array}
+      }.\hspace*{2em}
+    \end{align*}
 \end{definition}
