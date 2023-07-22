@@ -1,11 +1,10 @@
 \subsection{Perfect Special Honest Verifier Zero Knowledge}
-\begin{definition}[\nottoggle{twocolumn}{Perfect }{}Special Honest Verifier Zero-Knowledge]
+\begin{definition}[Perfect Special Honest Verifier Zero-Knowledge]
     The protocol $(\setup, \prover, \verifier)$ has perfect \emph{Special Honest Verifier Zero-Knowledge~(SHVZK)}
     if there exists a simulator $\mathcal{S}$
     such that for all pairs of adversaries $(\adv_1,\adv_2)$,
     \begin{align*}
-      &\thmflushleft
-      \prob{
+      &\prob{
         \begin{array}{c}
           (\sigma, u, w) \in \mathcal{R}\\
           \land \ \adv_2(\sigma, \pi) = 1
@@ -17,8 +16,7 @@
             \pi \gets \ip{\prover(\sigma, u, w)}{\verifier(\sigma, u; \rho)}
         \end{array}
       }\\
-      &\thmflushleft
-      = \prob{
+      &= \prob{
         \begin{array}{c}
           (\sigma, u, w) \in \mathcal{R}\\
           \land \ \adv_2(\sigma, \pi) = 1
