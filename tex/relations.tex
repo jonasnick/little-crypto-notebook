@@ -1,4 +1,4 @@
-\subsection{Perfect Special Honest Verifier Zero Knowledge}
+\subsection{Zero Knowledge Arguments of Knowledge}
 
 A zero-knowledge argument of knowledge consists of a non-interactive PPT Turing
 machine $\setup$ which outputs a \emph{common random string} $\sigma$, and two interactive PPT Turing machines $\prover$ (prover) and $\verifier$ (verifier).
@@ -15,36 +15,41 @@ if $(\sigma, x, w) \in \mathcal{R}$.
 Soundness requires that the prover fail with
 overwhelming probability to convince the verifier to accept if $(\sigma, x, w) \notin
 \mathcal{R}$.
-
+The zero-knowledge property requires
+that the verifier learns nothing about the witness from
+interacting with an honest prover. This is formalized via the
+existence of a simulator that is able to
+construct an identically distributed proof without knowledge of the witness.
 
 \subsection{Perfect Special Honest Verifier Zero Knowledge}
 \begin{definition}[Perfect Special Honest Verifier Zero-Knowledge]
-    The protocol $(\setup, \prover, \verifier)$ has perfect \emph{Special Honest Verifier Zero-Knowledge~(SHVZK)}
+    \label{def:pshvzk}
+    The protocol $(\setup, \prover, \verifier)$ has perfect \emph{Special Honest Verifier Zero-Knowledge~(PSHVZK)}
     if there exists a probabilistic polynomial time (PPT) simulator $\mathcal{S}$
     such that for all pairs of adversaries $(\adv_1,\adv_2)$,
     \begin{align*}
       &\prob{
         \begin{array}{c}
-          (\sigma, u, w) \in \mathcal{R}\\
+          (\sigma, x, w) \in \mathcal{R}\\
           \land \ \adv_2(\sigma, \pi) = 1
         \end{array}
         \middle| % \sigma \gets \setup(1^{\lambda}),
         \begin{array}{c}
             \sigma \gets \setup(\secparam);
-            (u, w, \rho) \gets \adv_1(\sigma);\\
-            \pi \gets \ip{\prover(\sigma, u, w)}{\verifier(\sigma, u; \rho)}
+            (x, w, \rho) \gets \adv_1(\sigma);\\
+            \pi \gets \ip{\prover(\sigma, x, w)}{\verifier(\sigma, x; \rho)}
         \end{array}
       }\\
       &= \prob{
         \begin{array}{c}
-          (\sigma, u, w) \in \mathcal{R}\\
+          (\sigma, x, w) \in \mathcal{R}\\
           \land \ \adv_2(\sigma, \pi) = 1
         \end{array}
         \middle| % \sigma \gets \setup(1^{\lambda}),
         \begin{array}{c}
             \sigma \gets \setup(\secparam);
-            (u, w, \rho) \gets \adv_1(\sigma);\\
-            \pi \gets \mathcal{S}(u, \rho)
+            (x, w, \rho) \gets \adv_1(\sigma);\\
+            \pi \gets \mathcal{S}(x, \rho)
         \end{array}
       }.\hspace*{2em}
     \end{align*}

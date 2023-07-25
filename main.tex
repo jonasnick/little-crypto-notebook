@@ -6,12 +6,16 @@
 \usepackage{todonotes}
 % Related to math
 \usepackage{amsmath,amssymb,amsfonts,amsthm,hyperref}
+\usepackage{cleveref}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
 
 % modified pf2 where proof -> pproof and qed -> pqed to avoid colliding with amsthm
 \usepackage{pf2}
 \pflongnumbers
+\beforePfSpace{1ex, 0pt}
+\afterPfSpace{1ex, 0pt}
+\interStepSpace{2pt}
 \usepackage[
     adversary,
     sets,
@@ -23,6 +27,28 @@
     operators
 ]{cryptocode}
 
+\usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
+%%% Save space in references
+\AtEveryBibitem{
+  \ifentrytype{misc}{
+    \clearfield{howpublished} % for eprint entries
+  }{}
+  \clearlist{location}
+  \clearname{editor}
+  \clearfield{pages}
+
+  \ifentrytype{inproceedings}{ % Remove a lot for proceedings
+    \clearfield{year}
+    \clearlist{editor}
+    \clearfield{volume}
+    \clearlist{publisher}
+    \clearfield{series}
+    \clearfield{note}
+    \clearfield{url}
+  }{}
+}
+\addbibresource{bib.bib}
+
 
 \input{tex/macros.tex}
 
@@ -30,6 +56,14 @@
 \begin{document}
 \maketitle
 \tableofcontents
+
+\section{Proving Zero-Knowledge}
+This section demonstrates a non-trivial proof of Zero-Knowledge that aims to be more rigorous than the proofs commonly encountered in the academic literature.
+The motivation is the belief that following a detailed proof enhances understanding of Zero-Knowledge and helps building an intuition.
+The toy protocol we will explore is a heavily simplified variant of Bulletproofs~\cite{bp1} range proofs.
+In short, it proves that a committed value is the product of two other committed values.
+
 \input{tex/relations.tex}
 \input{tex/zk_mul.tex}
+\printbibliography
 \end{document}
