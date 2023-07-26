@@ -5,17 +5,22 @@
 \usepackage[utf8]{inputenc}
 \usepackage{todonotes}
 % Related to math
-\usepackage{amsmath,amssymb,amsfonts,amsthm,hyperref}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,hyperref,thmtools}
+% for nested proofs
+%\renewcommand{\qedsymbol}{}
+\declaretheoremstyle[%
+  spaceabove=-2pt,%
+  spacebelow=-6pt,%
+  headfont=\normalfont\itshape,%
+  postheadspace=1em,%
+  qed=%
+]{innerproofstyle}
+\declaretheorem[name={Proof},style=innerproofstyle,unnumbered,
+]{innerproof}
+
 \usepackage{cleveref}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
-
-% modified pf2 where proof -> pproof and qed -> pqed to avoid colliding with amsthm
-\usepackage{pf2}
-\pflongnumbers
-\beforePfSpace{1ex, 0pt}
-\afterPfSpace{1ex, 0pt}
-\interStepSpace{2pt}
 \usepackage[
     adversary,
     sets,

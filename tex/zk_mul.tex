@@ -71,17 +71,18 @@ We will now discuss whether variants of the protocol are still PSHVZK.
 \begin{theorem}
   Above protocol for $\mathcal{R}_{\textrm{mult}}$ has perfect special HVZK.
 \end{theorem}
-\begin{pproof}
-  \pf
-  \step{1}{It suffices to describe a PPT simulator that on input of the statement outputs a transcript $\pi = (x, l, r, \mu, \tau_x, S, T_1, T_2)$ such that the probability distribution $\Pr(\pi' = \pi)$ for random variable $\pi'$ is equal to the probability distribution of real transcript between a honest verifier and a prover with access to the witness.
-           To simplify the notation, we write $\Pr(\pi' = \pi)$ as $\Pr(\pi)$.}
-  \step{2}{ Let $\mathcal{S}$ be a simulator which draws $x, l, r, \mu, \tau_x, T_2$ uniformly at random and sets
+\begin{proof}
+     $ $\par
+  \begin{enumerate}
+  \item It suffices to describe a PPT simulator that on input of the statement outputs a transcript $\pi = (x, l, r, \mu, \tau_x, S, T_1, T_2)$ such that the probability distribution $\Pr(\pi' = \pi)$ for random variable $\pi'$ is equal to the probability distribution of real transcript between a honest verifier and a prover with access to the witness.
+           To simplify the notation, we write $\Pr(\pi' = \pi)$ as $\Pr(\pi)$.
+  \item Let $\mathcal{S}$ be a simulator which draws $x, l, r, \mu, \tau_x, T_2$ uniformly at random and sets
     \begin{align*}
       S &:= \frac{1}{x}(lG_0 + rG_1 + \mu H - C)\\
       T_1 &:= \frac{1}{x}(lrG_0 + \tau_xH - V - x^2T_2)
     \end{align*}
-    The simulator runs in polynomial time.}
-  \step{3}{The distribution of transcript $\pi$ output by the simulator is
+    The simulator runs in polynomial time.
+  \item The distribution of transcript $\pi$ output by the simulator is
     \begin{align*}
         \Pr(\pi) &= \Pr(x, l, r, \mu, \tau_x, S, T_1, T_2)\\
                         &= \begin{cases} 0 \text{ if } S \ne \frac{1}{x}(lG_0 + rG_1 + \mu H - C) \text{ or } T_1 \ne \frac{1}{x}(lrG_0 + \tau_xH - V - x^2T_2) \\
@@ -89,14 +90,13 @@ We will now discuss whether variants of the protocol are still PSHVZK.
                              \end{cases}
     \end{align*}
     where $\Pr(x),\Pr(l),\Pr(r),\Pr(\mu),\Pr(\tau_x),\Pr(T_2)$ are uniform distributions.
-    }
-  \step{4}{The distribution of transcript $\pi$ in an real interaction is
+  \item The distribution of transcript $\pi$ in an real interaction is
     \begin{align*}
       \Pr(\pi) &= \Pr(x) \Pr(l|x, s_a) \Pr(r|x, s_b) \Pr(\mu| x, s_S) \Pr(\tau_x| x, \tau_1, \tau_2) \Pr(S| s_a, s_b, s_S) \Pr(T_1| s_a, s_b, \tau_1)\\
       &\qquad \Pr(T_2| s_a, s_b, \tau_2) \Pr(s_a)\Pr(s_b)\Pr(s_S)\Pr(\tau_1 )\Pr(\tau_2)
     \end{align*}
-    where $\Pr(x),\Pr(s_a),\Pr(s_b),\Pr(s_S),\Pr(\tau_1),\Pr(\tau_2)$ are uniform distributions and all conditional probability distributions are 0 if the defining equation holds and 1 otherwise. For example, $\Pr(l|x, s_a) = 0$ if $l\ne a + s_ax$.}
-   \step{5}{We can rewrite the distribution of transcript $\pi$ in an real interaction as
+    where $\Pr(x),\Pr(s_a),\Pr(s_b),\Pr(s_S),\Pr(\tau_1),\Pr(\tau_2)$ are uniform distributions and all conditional probability distributions are 0 if the defining equation holds and 1 otherwise. For example, $\Pr(l|x, s_a) = 0$ if $l\ne a + s_ax$.
+   \item We can rewrite the distribution of transcript $\pi$ in an real interaction as
     \begin{align*}
         \Pr(\pi) &= \Pr(x, l, r, \mu, \tau_x, S, T_1, T_2)\\
                         &= \begin{cases} 0 \text{ if } S \ne s_aG_0 + s_bG_1 x^{-1}(s_C - \mu)H \text{ or } T_1 \ne (as_b + bs_a)G_0 + \tau_1H \text{ for }\\ \qquad s_a := x^{-1}(l - a), s_b := x^{-1}(r - b), \tau_1 := - x^{-1}(s_V  + x^2\tau_2 - \tau_x), \tau_2 := \log_H(T_2) - s_as_b\log_H(G_0) \\
@@ -104,25 +104,25 @@ We will now discuss whether variants of the protocol are still PSHVZK.
                              \end{cases}
     \end{align*}
     where $\Pr(x),\Pr(l),\Pr(r),\Pr(\mu),\Pr(\tau_x),\Pr(T_2)$ are uniform distributions.
-   }
-   \begin{pproof}
-     \pf\ \step{5a}{Since $\Pr(l|x, s_a)\Pr(s_a) = \Pr(l,s_a|x) = \Pr(s_a|x, l) \Pr(l)$ and similarly for $r$, $\mu$, as well as $\Pr(\tau_x| x, \tau_1, \tau_2)\Pr(\tau_1 ) = \Pr(\tau_1| x, \tau_x, \tau_2)\Pr(\tau_x )$ and $\Pr(T_2| s_a, s_b, \tau_2)\Pr(\tau_2) = \Pr(\tau_2| s_a, s_b, T_2)\Pr(T_2)$,
+   \begin{innerproof}
+     $ $\par
+     \begin{enumerate}
+     \item Since $\Pr(l|x, s_a)\Pr(s_a) = \Pr(l,s_a|x) = \Pr(s_a|x, l) \Pr(l)$ and similarly for $r$, $\mu$, as well as $\Pr(\tau_x| x, \tau_1, \tau_2)\Pr(\tau_1 ) = \Pr(\tau_1| x, \tau_x, \tau_2)\Pr(\tau_x )$ and $\Pr(T_2| s_a, s_b, \tau_2)\Pr(\tau_2) = \Pr(\tau_2| s_a, s_b, T_2)\Pr(T_2)$,
        we have
        \begin{align*}
       \Pr(\pi) &= \Pr(x) \Pr(s_a|x, l) \Pr(s_b|x, r) \Pr(s_S| x, \mu) \Pr(\tau_1| x, \tau_x, \tau_2) \Pr(S| s_a, s_b, s_S) \Pr(T_1| s_a, s_b, \tau_1)\\
       &\qquad \Pr(\tau_2| s_a, s_b, T_2) \Pr(l)\Pr(r)\Pr(\mu)\Pr(\tau_x )\Pr(T_2)
        \end{align*}
-       }
-     \step{5b}{We can rewrite this to get rid of hidden random variables $s_a, s_b, s_S, \tau_1, \tau_2$ by substitution:
+     \item We can rewrite this to get rid of hidden random variables $s_a, s_b, s_S, \tau_1, \tau_2$ by substitution:
        \begin{align*}
       \Pr(\pi) &= \Pr(x) \Pr(S| x, l, r, \mu) \Pr(T_1| x, l, r, \tau_x, T_2) \Pr(l)\Pr(r)\Pr(\mu)\Pr(\tau_x )\Pr(T_2).
        \end{align*}
-     }
-     \step{5c}{$\Pr(\pi) = 0$ if and only if $\Pr(S| x, l, r, \mu) = 0$ or $\Pr(T_1| x, l, r, \tau_x, T_2) = 0$, otherwise both probabilities are 1.}
-    \end{pproof}
-  \step{6}{The distributions of the real transcript and simulated transcripts are the same.}
-  \begin{pproof}
-    \pf\ In the real transcript we have $S = \frac{1}{x}(lG_0 + rG_1 + s_CH - (aG_0 + bG_1 + \mu H)) = \frac{1}{x}(lG_0 + rG_1 + s_CH - C)$ since the statement is valid. Similarly
+     \item $\Pr(\pi) = 0$ if and only if $\Pr(S| x, l, r, \mu) = 0$ or $\Pr(T_1| x, l, r, \tau_x, T_2) = 0$, otherwise both probabilities are 1.
+     \end{enumerate}
+    \end{innerproof}
+  \item The distributions of the real transcript and simulated transcripts are identical.
+  \begin{innerproof}
+    In the real transcript we have $S = \frac{1}{x}(lG_0 + rG_1 + s_CH - (aG_0 + bG_1 + \mu H)) = \frac{1}{x}(lG_0 + rG_1 + s_CH - C)$ since the statement is valid. Similarly
       \begin{align*}
         T_1 &= (as_b + bs_a)G_0 - x^{-1}(s_V  + x^2(\log_H(T_2) - s_as_b\log_H(G_0)) - \tau_x)H\\
             &= \frac{1}{x}((xas_b + xbs_a)G_0 + \tau_xH - s_VH - x^2T_2 - x^2s_as_bG_0)\\
@@ -130,5 +130,6 @@ We will now discuss whether variants of the protocol are still PSHVZK.
             &= \frac{1}{x}((lr - ab)G_0 + \tau_xH - s_VH - x^2T_2)\\
             &= \frac{1}{x}(lr G_0 + \tau_xH - V - x^2T_2)\\
       \end{align*}
-  \end{pproof}
-\end{pproof}
+  \end{innerproof}
+ \end{enumerate}
+\end{proof}
