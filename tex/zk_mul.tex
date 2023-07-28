@@ -135,7 +135,7 @@ We will now discuss whether variants of the protocol are still PSHVZK.
       \begin{align*}
         S = \frac{1}{x}(lG_0 + rG_1 + s_CH - (aG_0 + bG_1 + \mu H))
       \end{align*}
-      and further as $S = \frac{1}{x}(lG_0 + rG_1 + s_CH - C)$ because the prover has a witness for the statement.
+      and further as $S = \frac{1}{x}(lG_0 + rG_1 + s_CH - C)$ because the prover has a witness for the statement per the definition of PSHVZK.
       Similarly, we can rewrite $T_1$ as
       \begin{align*}
         T_1 &= (as_b + bs_a)G_0 - x^{-1}(s_V  + x^2(\log_H(T_2) - s_as_b\log_H(G_0)) - \tau_x)H\\
@@ -148,3 +148,27 @@ We will now discuss whether variants of the protocol are still PSHVZK.
   \end{innerproof}
  \end{enumerate}
 \end{proof}
+
+\paragraph{Another attempt at explaining $\tau_2$}
+Using above proof, we can now obtain another perspective for why we can't remove $\tau_2$ from the protocol and retain PSHVZK.
+If we removed $\tau_2$, the distribution of transcript $\pi$ in a real interaction would be
+\begin{align*}
+    \Pr(\pi) &= \Pr(x) \Pr(l|x, s_a) \Pr(r|x, s_b) \Pr(\mu| x, s_S) \Pr(\tau_x| x, \tau_1) \Pr(S| s_a, s_b, s_S) \Pr(T_1| s_a, s_b, \tau_1)\\
+      &\qquad \Pr(T_2| s_a, s_b) \Pr(s_a)\Pr(s_b)\Pr(s_S)\Pr(\tau_1 )
+\end{align*}
+
+which we can rewrite, using the same strategies as in above proof, as
+
+\begin{align*}
+      \Pr(\pi) &= \Pr(x) \Pr(s_a|x, l) \Pr(s_b|x, r) \Pr(s_S| x, \mu) \Pr(\tau_1| x, \tau_x) \Pr(S| s_a, s_b, s_S) \Pr(T_1| s_a, s_b, \tau_1)\\
+      &\qquad \Pr(T_2 | s_a, s_b) \Pr(l)\Pr(r)\Pr(\mu)\Pr(\tau_x )\\
+               &= \Pr(x) \Pr(S| x, l, r, \mu) \Pr(T_1| x, l, r, \tau_x) \Pr(T_2 | x, l, r) \Pr(l)\Pr(r)\Pr(\mu)\Pr(\tau_x)\\
+               &= \begin{cases} 0 \text{ if } S \ne s_aG_0 + s_bG_1 x^{-1}(s_C - \mu)H \text{ or } T_1 \ne (as_b + bs_a)G_0 + \tau_1H \text{ or } T_2 \ne s_as_bG_0\text{ for }\\ \qquad s_a := x^{-1}(l - a), s_b := x^{-1}(r - b), \tau_1 := - x^{-1}(s_V  - \tau_x) \\
+                             \Pr(x)\Pr(l)\Pr(r)\Pr(\mu)\Pr(\tau_x) \text{ otherwise}
+                             \end{cases}\\
+              &= \begin{cases} 0 \text{ if } S \ne \frac{1}{x}(lG_0 + rG_1 + s_CH - C) \text{ or } T_1 \ne \frac{1}{x}(lr G_0 + \tau_xH - V - x^2T_2) \text{ or } T_2 \ne x^{-2}(lr - lb - ar + ab)G_0\\
+                             \Pr(x)\Pr(l)\Pr(r)\Pr(\mu)\Pr(\tau_x) \text{ otherwise}
+                             \end{cases}.
+    \end{align*}
+We have that $x^{-2}(lr - lb - ar + ab)G_0 = x^{-2}(lr - lb - ar + ab)G_0$ and therefore, a simulator would have to output $T_2 = x^{-2}(lr - lb - ar + ab)G_0$, which seems impossible with the values provided to the PPT simulator.
+
