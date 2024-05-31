@@ -1,0 +1,45 @@
+\section{Commitments}
+
+\begin{definition}[Binding Commitment]
+A commitment scheme is said to be binding if for all PPT adversaries $\adv$ there exists a negligible function $\mu$ such that
+\begin{equation*}
+\Pr[\com(x_0; r_0) = \com(x_1; r_1) \wedge x_0 = x_1 \mid \params \sample \setup(\secparam), (x_0, x_1, r_0, r_1) \gets \adv(\params)] \le \mu(\secpar).
+\end{equation*}
+\end{definition}
+
+\subsection{Pay-to-Contract}
+
+Pay-To-Contract is a commitment scheme where the commitment is a group element in $\GG$.
+That is, given a generator $G$ of $\GG$, a hash function $\HPTOC$, a message $m \in \str$ and a group element $P \in \GG$, the commitment algorithm works as follows:
+
+\procedureblock[linenumbering]{$\mathsf{P2C}_\mathsf{Commit}(m; P)$}{
+    t \gets \HPTOC(P, m)\\
+    \pcreturn P + t\cdot G
+}
+
+The main feature of the Pay-to-Contract commitment scheme is that knowledge of a scalar $\sk \in \Z_p$ such that $\sk \cdot G = P$ allows computing the discrete logarithm of $\mathsf{P2C}_\mathsf{Commit}(m; P)$ as
+
+\procedureblock[linenumbering]{$\mathsf{P2C}_\mathsf{TweakSeckey}(m, \sk)$}{
+    t \gets \HPTOC(\sk\cdot G, m)\\
+    \pcreturn \sk + t \bmod p
+}
+
+This feature is used in Taproot to allow creating Schnorr signatures for a Pay-To-Contract commitment.
+
+\begin{lemma}
+    Pay-to-Contract is a binding commitment scheme in the random oracle model.
+\end{lemma}
+\begin{proof}
+     $ $\par
+  \begin{enumerate}
+    \item Let $\adv$ be a PPT adversary against the binding property of the Pay-to-Contract commitment scheme.
+    \item Let $q$ denote the number of queries the adversary makes to the random oracle $\HPTOC$. Since the adversary is PPT, $q \in \poly$.
+    \item There are at most $q(q-1) \le q^2$ distinct pairs of queries to $\HPTOC$.
+    \item For any pair of distinct queries $(P, m)$ and $(P', m')$, the probability that $P - P' = \HPTOC(P, m)G - \HPTOC(P', m')G$ is $1/p$.
+          Therefore, the probability that $\mathsf{P2C}_\mathsf{Commit}(m; P) = \mathsf{P2C}_\mathsf{Commit}(m'; P')$ is $1/p$.
+    \item By the union bound, the probability that the adversary queried distinct $(P, m)$ and $(P', m')$ such that $\mathsf{P2C}_\mathsf{Commit}(m; P) = \mathsf{P2C}_\mathsf{Commit}(m'; P')$ is $\le q^2/p$.
+    \item Hence, $\mu(\lambda) = q^2/p$ which is a negligible function.
+  \end{enumerate}
+\end{proof}
+
+

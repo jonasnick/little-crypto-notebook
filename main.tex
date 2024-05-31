@@ -19,7 +19,8 @@
     lambda,
     oracles,
     primitives,
-    operators
+    operators,
+    keys
 ]{cryptocode}
 
 \usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
@@ -44,13 +45,15 @@
 }
 \addbibresource{bib.bib}
 
-
 \input{tex/macros.tex}
 
 \title{Little Crypto Notebook}
 \begin{document}
 \maketitle
 \tableofcontents
+
+\input{tex/notation.tex}
+\input{tex/commitments.tex}
 
 \section{Proving Zero-Knowledge}
 This section demonstrates a non-trivial proof of Zero-Knowledge that aims to be more rigorous than the proofs commonly encountered in the academic literature.
